@@ -1,0 +1,99 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+enum class type { tech, art };
+
+class Books {
+
+public:
+
+Books(const string& title, const string& author, const type& type)
+: m_title(title), m_author(author), m_type(type) {}
+
+~Books() {}
+
+const string& get_title() const { return m_title; }
+const string& get_author() const { return m_author; }
+const type get_type() const { return m_type; }
+
+private:
+const string m_title;
+const string m_author;
+const type m_type;
+};
+
+
+class Library {
+private:
+vector <Books> m_books;
+
+public:
+void add_book(const string& title, const string& author, const type& type) {
+if (title.empty() == 0 && author.empty() == 0)
+m_books.push_back(Books(title, author, type));
+
+}
+void print_books() {
+for (const Books& obj : m_books) {
+cout << obj.get_title() << " " << obj.get_author() << " ";
+switch (obj.get_type()) {
+case type::tech:
+cout << "- tech book" << endl;
+break;
+case type::art:
+cout << "- art book" << endl;
+break;
+default:
+cout << "- unknown" << endl;
+
+}
+}
+}
+
+void count_type_switch() {
+unsigned count_tech = 0;
+unsigned count_art = 0;
+for (const Books& obj : m_books) {
+switch (obj.get_type()) {
+case type::tech:
+count_tech++;
+break;
+case type::art:
+count_art++;
+break;
+}
+}
+cout << "Art books: " << count_art << endl;
+cout << "Tech books: " << count_tech << endl;
+}
+
+void count_type_if() {
+unsigned count_tech = 0;
+unsigned count_art = 0;
+for (const Books& obj : m_books) {
+if (obj.get_type() == type::art)
+count_art++;
+else if ( obj.get_type() == type::tech)
+count_tech++;
+}
+cout << "Art books: " << count_art << endl;
+cout << "Tech books: " << count_tech << endl;
+}
+
+};
+
+int main() {
+Library ToRead;
+
+ToRead.add_book("Nik", "Astro", type::art);
+ToRead.add_book("Gorge", "Hoking", type::art);
+ToRead.add_book("Elkin", "VvedenieVMatan", type::tech);
+
+ToRead.print_books();
+ToRead.count_type_if();
+ToRead.count_type_switch();
+
+return 0;
+};
