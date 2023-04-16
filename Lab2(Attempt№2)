@@ -1,0 +1,53 @@
+#include <vector>
+#include <iostream>
+
+
+using namespace std;
+
+class MarkOne {
+public:
+virtual void info() {
+cout << "This is MarkOne." << endl;
+}
+};
+
+class MarkTwo : public MarkOne {
+public:
+void info() {
+cout << "This is MarkTwo." << endl;
+}
+};
+
+void my_copy(MarkOne* obj, vector<MarkOne*>& database) {
+database.push_back(obj);
+}
+
+int main()
+{
+MarkOne obj1;
+MarkTwo obj2;
+MarkTwo obj3;
+
+vector<MarkOne*> database;
+
+my_copy(&obj1, database);
+my_copy(&obj2, database);
+my_copy(&obj3, database);
+
+for (auto obj : database) {
+    if (typeid(*obj) == typeid(MarkOne))
+        cout << "Object is MarkOne." << endl;
+    else if (typeid(*obj) == typeid(MarkTwo))
+        cout << "Object is MarkTwo." << endl;
+
+    obj->info();
+}
+
+for (auto obj : database) {
+    delete obj;
+}
+
+database.clear();
+
+return 0;
+}
